@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apechkov <apechkov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anastasiia <anastasiia@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:44:15 by apechkov          #+#    #+#             */
-/*   Updated: 2024/09/20 18:44:56 by apechkov         ###   ########.fr       */
+/*   Updated: 2024/09/21 11:22:22 by anastasiia       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,41 +107,3 @@ int main(int ac, char **av)
         pause();
     return (0);
 }
-// int	main(int ac, char **av)
-// {
-// 	struct sigaction	send;
-// 	struct sigaction	empty;
-
-// 	if (ac != 3)
-// 	{
-// 		ft_printf("Usage: ./client [server_pid] [value]\n");
-// 		return (1);
-// 	}
-// 	send.sa_sigaction = send_act;
-// 	send.sa_flags = SA_SIGINFO;
-// 	if (sigaction(SIGUSR1, &send, NULL) < 0)
-// 	{
-// 		ft_printf("Fatal error: sigaction\n");
-// 		return (1);
-// 	}
-// 	empty.sa_sigaction = send_act;
-// 	empty.sa_flags = SA_SIGINFO;
-// 	if (sigaction(SIGUSR2, &empty, NULL) < 0)
-// 	{
-// 		ft_printf("Fatal error: sigaction\n");
-// 		return (1);
-// 	}
-// 	g_mes.counter = 7;
-// 	g_mes.data = av[2];
-// 	g_mes.data[ft_strlen(g_mes.data)] = '\0';
-// 	if (!check_pid(av[1]))
-// 	{
-// 		ft_printf("Fatal error: Wrong PID\n");
-// 		return (1);
-// 	}
-// 	if (kill(ft_atoi(av[1]), SIGUSR1) < 0)
-// 		ft_printf("Fatal error: kill\n");
-// 	while (1)
-// 		pause();
-// 	return (0);
-// }
