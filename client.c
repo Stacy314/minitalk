@@ -6,7 +6,7 @@
 /*   By: anastasiia <anastasiia@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:44:15 by apechkov          #+#    #+#             */
-/*   Updated: 2024/09/21 11:22:22 by anastasiia       ###   ########.fr       */
+/*   Updated: 2024/09/21 16:55:32 by anastasiia       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,30 +51,30 @@ void	send_act(int sig, siginfo_t *info, void *context)
 // 		return (0);
 // 	return (1);
 // }
+
+/*Sets up signal handlers for the SIGUSR1 and SIGUSR2 signals using the 
+sigaction system call.*/
 int setup_signal_handlers(void)
 {
     struct sigaction send;
     struct sigaction empty;
 
-    // Set up handler for SIGUSR1
     send.sa_sigaction = send_act;
     send.sa_flags = SA_SIGINFO;
-    if (sigaction(SIGUSR1, &send, NULL) < 0)
-    {
-        ft_printf("Fatal error: sigaction\n");
-        return (1);
-    }
-
-    // Set up handler for SIGUSR2
+    // if (sigaction(SIGUSR1, &send, NULL) < 0)
+    // {
+    //     ft_printf("Fatal error: sigaction\n");
+    //     return (0);
+    // }
     empty.sa_sigaction = send_act;
     empty.sa_flags = SA_SIGINFO;
-    if (sigaction(SIGUSR2, &empty, NULL) < 0)
+    if ((sigaction(SIGUSR2, &empty, NULL) < 0) 
+            || (sigaction(SIGUSR1, &send, NULL) < 0))
     {
         ft_printf("Fatal error: sigaction\n");
-        return (1);
+        return (0);
     }
-
-    return (0); // Success
+    return (1);
 }
 
 int main(int ac, char **av)
@@ -84,8 +84,8 @@ int main(int ac, char **av)
         ft_printf("Usage: ./client [server_pid] [value]\n");
         return (1);
     }
-    if (setup_signal_handlers() != 0)
-        return (1); // Error in signal setup
+    if (!setup_signal_handlers())
+        return (1);
     g_mes.counter = 7;
     g_mes.data = av[2];
     g_mes.data[ft_strlen(g_mes.data)] = '\0';

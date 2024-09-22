@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apechkov <apechkov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anastasiia <anastasiia@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:43:50 by apechkov          #+#    #+#             */
-/*   Updated: 2024/09/20 17:43:27 by apechkov         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:10:06 by anastasiia       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <unistd.h>
 # include <signal.h>
 # include <stdlib.h>
-//#include <asm-generic/siginfo.h>
-//#include <asm-generic/signal.h>
 
 typedef struct s_message
 {
@@ -28,6 +26,6 @@ typedef struct s_message
 	int		value;   // Використовується на сервері для зберігання декодованого символу
 }	t_message;
 
-t_message	g_mes;
+extern t_message	g_mes;
 
 #endif
