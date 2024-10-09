@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 CLIENT_SRCS = client.c
 SERVER_SRCS = server.c
 LIBFT_PATH = libft

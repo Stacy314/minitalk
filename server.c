@@ -3,35 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apechkov <apechkov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anastasiia <anastasiia@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:44:06 by apechkov          #+#    #+#             */
-/*   Updated: 2024/09/20 18:38:38 by apechkov         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:22:03 by anastasiia       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	handle_character_output(int c)
-{
-	if (g_mes.value == 0)  // Якщо кінець строки, вивести новий рядок
-		ft_printf("\n");
-	else
-		ft_putchar_fd(c, 1);  // Використовуємо вашу функцію для виводу символу
-	g_mes.counter = 7;
-	g_mes.value = 0;
-}
+t_message	g_mes;
 
-long int	ft_pow(long int x, unsigned int n)
+void	save_char_to_buffer(char c)
 {
-	if (n == 0)
-		return (1);
-	else if (n == 1)
-		return (x);
-	else if (n % 2 == 0)
-		return (ft_pow(x * x, n / 2));
-	else
-		return (ft_pow(x * x, n / 2) * x);
+	static char	*buffer = NULL;
+	static int	length = 0;
+	char		*new_buffer;
+	int			i;
+
+	new_buffer = (char *)malloc(sizeof(char) * (length + 2));
+	if (!new_buffer)
+	{
+		ft_printf("Fatal error: malloc\n");
+		exit(1);
+	}
+	i = -1;
+	while (++i < length)
+		new_buffer[i] = buffer[i];
+	new_buffer[length] = c;
+	new_buffer[length + 1] = '\0';
+	free(buffer);
+	buffer = new_buffer;
+	length++;
+	if (c == '\0')
+	{
+		ft_printf("%s\n", buffer);
+		buffer = NULL;
+		length = 0;
+	}
 }
 
 void	one_act(int sig, siginfo_t *info, void *context)
@@ -43,16 +52,20 @@ void	one_act(int sig, siginfo_t *info, void *context)
 		if (kill(info->si_pid, SIGUSR1) < 0)
 		{
 			ft_printf("Fatal error: kill\n");
-			exit (1);
+			exit(1);
 		}
 		return ;
 	}
-	g_mes.value += ft_pow(2, g_mes.counter);
+	g_mes.value += (1 << g_mes.counter);
 	if (g_mes.counter == 0)
-		handle_character_output(g_mes.value);
+	{
+		save_char_to_buffer(g_mes.value);
+		g_mes.counter = 7;
+		g_mes.value = 0;
+	}
 	else
 		g_mes.counter--;
-	kill (info->si_pid, SIGUSR1);
+	kill(info->si_pid, SIGUSR1);
 }
 
 void	zero_act(int sig, siginfo_t *info, void *context)
@@ -60,7 +73,11 @@ void	zero_act(int sig, siginfo_t *info, void *context)
 	(void)sig;
 	(void)context;
 	if (g_mes.counter == 0)
-		handle_character_output(g_mes.value);
+	{
+		save_char_to_buffer(g_mes.value);
+		g_mes.counter = 7;
+		g_mes.value = 0;
+	}
 	else
 		g_mes.counter--;
 	kill (info->si_pid, SIGUSR1);
@@ -71,9 +88,11 @@ int	main(void)
 	struct sigaction	one;
 	struct sigaction	zero;
 
+	sigemptyset(&one.sa_mask);
+	sigemptyset(&zero.sa_mask);
 	ft_printf("Server PID: %d\n", getpid());
 	one.sa_sigaction = one_act;
-	one.sa_flags = SA_SIGINFO; 
+	one.sa_flags = SA_SIGINFO;
 	zero.sa_sigaction = zero_act;
 	zero.sa_flags = SA_SIGINFO;
 	g_mes.counter = 7;
@@ -86,7 +105,7 @@ int	main(void)
 	if (sigaction(SIGUSR2, &zero, NULL) < 0)
 	{
 		ft_printf("Fatal error: sigaction\n");
-		return (1);		
+		return (1);
 	}
 	while (1)
 		pause();
