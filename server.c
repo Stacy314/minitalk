@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anastasiia <anastasiia@student.42.fr>      +#+  +:+       +#+        */
+/*   By: apechkov <apechkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:44:06 by apechkov          #+#    #+#             */
-/*   Updated: 2024/10/14 23:03:22 by anastasiia       ###   ########.fr       */
+/*   Updated: 2024/10/26 21:46:31 by apechkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	save_char_to_buffer(char c)
 	static char	*buffer = NULL;
 	static int	length = 0;
 	char		*new_buffer;
-	int			i;
 
 	new_buffer = (char *)malloc(sizeof(char) * (length + 2));
 	if (!new_buffer)
@@ -27,9 +26,8 @@ void	save_char_to_buffer(char c)
 		ft_printf("Fatal error: malloc\n");
 		exit(1);
 	}
-	i = -1;
-	while (++i < length)
-		new_buffer[i] = buffer[i];
+	if (buffer)
+		ft_strlcpy(new_buffer, buffer, length + 1);
 	new_buffer[length] = c;
 	new_buffer[length + 1] = '\0';
 	free(buffer);
@@ -38,6 +36,7 @@ void	save_char_to_buffer(char c)
 	if (c == '\0')
 	{
 		ft_printf("%s\n", buffer);
+		free(buffer);
 		buffer = NULL;
 		length = 0;
 	}
