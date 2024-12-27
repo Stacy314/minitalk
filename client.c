@@ -6,7 +6,7 @@
 /*   By: apechkov <apechkov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:44:15 by apechkov          #+#    #+#             */
-/*   Updated: 2024/10/29 17:41:27 by apechkov         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:40:23 by apechkov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	main(int ac, char **av)
 		ft_printf("Usage: ./client [server_pid] [value]\n");
 		return (1);
 	}
+	if (ft_strncmp(av[1], "-1", ft_strlen(av[1])) == 0)
+		return (1);
 	if (!signal_handler())
 		return (1);
 	g_mes.counter = 7;
