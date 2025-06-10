@@ -14,6 +14,7 @@
 # define MINITALK_H
 
 # include "libft/libft.h"
+# include "ft_printf/ft_printf.h"
 # include <signal.h>
 
 typedef struct s_message
