@@ -61,7 +61,7 @@ To send a message from the client:
 
 ```bash
 ./client <server_pid> "Your message here"
-```bash
+```
 
 Example:
 
