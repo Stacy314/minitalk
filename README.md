@@ -11,7 +11,6 @@
 - [Project Summary](#-project-summary)
 - [How It Works](#-how-it-works)
 - [Mandatory Requirements](#-mandatory-requirements)
-- [Bonus Features](#-bonus-features)
 - [Compiling and Usage](#-compiling-and-usage)
 - [Allowed Functions](#-allowed-functions)
 
