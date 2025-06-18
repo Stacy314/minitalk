@@ -44,6 +44,11 @@
 
 ## 🛠 Compiling and Usage
 
+To clone the project:
+```bash
+git clone --recurse-submodules https://github.com/Stacy314/minitalk
+```
+
 To compile the project:
 
 ```bash
